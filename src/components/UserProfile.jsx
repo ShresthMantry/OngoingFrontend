@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { getUserProfile, updateUserProfile } from '../services/user.service';
+import React, { useState, useEffect } from "react";
+import { getUserProfile, updateUserProfile } from "../services/user.service";
+import CarStr from "./CarStr";
 
 function UserProfile() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
-  const [city, setCity] = useState('');
-  const [zipCode, setZipCode] = useState('');
-  const [error, setError] = useState('');
+  const [cars, setCars] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [zipCode, setZipCode] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -20,6 +22,7 @@ function UserProfile() {
         setAddress(userProfile.address);
         setCity(userProfile.city);
         setZipCode(userProfile.zipCode);
+        setCars(userProfile.cars);
       } catch (error) {
         setError(error.response.data.error);
       }
@@ -32,15 +35,17 @@ function UserProfile() {
     e.preventDefault();
     try {
       await updateUserProfile({ name, phone, address, city, zipCode });
-      setError('Profile updated successfully');
+      setError("Profile updated successfully");
     } catch (error) {
       setError(error.response.data.error);
     }
   };
 
+
   return (
     <div>
       {error && <div>{error}</div>}
+    
       <h2>User Profile</h2>
       <form onSubmit={handleSubmit}>
         <input
@@ -49,12 +54,7 @@ function UserProfile() {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          disabled
-        />
+        <input type="email" placeholder="Email" value={email} disabled />
         <input
           type="text"
           placeholder="Phone"
@@ -81,6 +81,7 @@ function UserProfile() {
         />
         <button type="submit">Update Profile</button>
       </form>
+      <CarStr cars={cars}></CarStr>
     </div>
   );
 }

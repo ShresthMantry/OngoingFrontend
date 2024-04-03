@@ -1,0 +1,7 @@
+.carcard{
+    display: flex !important;
+
+    flex-wrap: wrap !important;
+    width:25rem !important;
+    margin:2rem !important;
+}
